@@ -31,37 +31,7 @@ GLuint loadTexture(Image* image) {
 
 	char *framebuffer = (char *)malloc((3 * sizeof(char) * width * height));
 
-	GzColor textureColor = { 0, 0, 0 };
-	GzIntensity finalColor[] = { 0, 0, 0 };
-	
-	for (int i = 255; i >= 0; i--){
-		for (int j = 0; j < 256; j++){
-			
-			textureColor[RED] = 0;
-			textureColor[GREEN] = 0;
-			textureColor[BLUE] = 0;
-
-			ptex_fun(i, j, textureColor);
-
-			finalColor[RED] = ctoi(textureColor[RED]);
-			finalColor[GREEN] = ctoi(textureColor[RED]);
-			finalColor[BLUE] = ctoi(1.0);
-			
-			*(framebuffer++) = (char)(finalColor[RED]);
-			*(framebuffer++) = (char)(finalColor[GREEN]);
-			*(framebuffer++) = (char)(finalColor[BLUE]);
-		}
-	}
-
-	for (int i = 0; i < 256; i++){
-		for (int j = 0; j < 256; j++){
-			framebuffer--;
-			framebuffer--;
-			framebuffer--;
-		}
-	}
-
-	GzFlushCloudTexture2File(framebuffer, width, height);
+	generateTexture(framebuffer, width, height);
 
 	//Map the image to the texture
 	glTexImage2D(GL_TEXTURE_2D,                //Always GL_TEXTURE_2D
