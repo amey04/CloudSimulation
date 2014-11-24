@@ -9,106 +9,119 @@
 
 using namespace std;
 
-void handleKeypress(unsigned char key, int x, int y) {
-	switch (key) {
-		case 27: //Escape key
-			exit(0);
-	}
+GLuint texture; //the array for our texture
+
+GLfloat angle = 0.0;
+
+GLuint LoadTexture(const char * filename, int width, int height){
+
+	//    GLuint texture;
+	unsigned char * data;
+	FILE * file;
+
+	//The following code will read in our RAW file
+	file = fopen(filename, "rb");
+	if (file == NULL) return 0;
+	data = (unsigned char *)malloc(width * height * 3);
+	fread(data, width * height * 3, 1, file);
+	fclose(file);
+
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+	//    // when texture area is small, bilinear filter the closest mipmap
+	//    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+	//                    GL_LINEAR_MIPMAP_NEAREST );
+	//    // when texture area is large, bilinear filter the original
+	//    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+	//    
+	//    // the texture wraps over at the edges (repeat)
+	//    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+	//    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+	//    
+	//    //Generate the texture
+	//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0,GL_RGB, GL_UNSIGNED_BYTE, data);
+
+
+
+	// select modulate to mix texture with color for shading
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+	// when texture area is small, bilinear filter the closest mipmap
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+		GL_LINEAR_MIPMAP_NEAREST);
+	// when texture area is large, bilinear filter the first mipmap
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	//    // the texture wraps over at the edges (repeat)
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	// build our texture mipmaps
+	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height,
+		GL_RGB, GL_UNSIGNED_BYTE, data);
+
+	free(data);
+
+	return texture; //return whether it was successful
+
 }
 
-//Makes the image into a texture, and returns the id of the texture
-GLuint loadTexture(Image* image) {
-	GLuint textureId;
-	glGenTextures(1, &textureId); //Make room for our texture
-	glBindTexture(GL_TEXTURE_2D, textureId); //Tell OpenGL which texture to edit
-	//Map the image to the texture
-	glTexImage2D(GL_TEXTURE_2D,                //Always GL_TEXTURE_2D
-				 0,                            //0 for now
-				 GL_RGB,                       //Format OpenGL uses for image
-				 image->width, image->height,  //Width and height
-				 0,                            //The border of the image
-				 GL_RGB, //GL_RGB, because pixels are stored in RGB format
-				 GL_UNSIGNED_BYTE, //GL_UNSIGNED_BYTE, because pixels are stored
-				                   //as unsigned numbers
-				 image->pixels);               //The actual pixel data
-	return textureId; //Returns the id of the texture
+void FreeTexture(GLuint texture){
+	glDeleteTextures(1, &texture);
 }
 
-GLuint _textureId; //The id of the textur
-GLUquadric *quad;
-float rotate_1;
-
-//GLUquadricObj quad;
-
-void initRendering() {
-	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_LIGHTING);
-	//glEnable(GL_LIGHT0);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_COLOR_MATERIAL);
-	quad = gluNewQuadric();
-
-	Image* image = loadBMP("earth.bmp");
-	_textureId = loadTexture(image);
-	delete image;
-}
-
-void handleResize(int w, int h) {
-	glViewport(0, 0, w, h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(45.0, (float)w / (float)h, 1.0, 200.0);
-}
-
-void drawScene() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-	glTranslatef(0.0f, 1.0f, -16.0f);
-
+void cube() {
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, _textureId);
+	glBindTexture(GL_TEXTURE_2D, texture); //bind the texture
 
-	//Bottom
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glRotatef(90,1.0f,0.0f,0.0f);
-	glRotatef(rotate_1,0.0f,0.0f,1.0f);
-	
-	gluQuadricTexture(quad,1);
-    gluSphere(quad,2,20,20);
-
+	glPushMatrix();
+	glRotatef(angle, 0.0f, 0.0f, 1.0f);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0.0, 0.0); glVertex2d(-1.0, -1.0);
+	glTexCoord2d(1.0, 0.0); glVertex2d(+1.0, -1.0);
+	glTexCoord2d(1.0, 1.0); glVertex2d(+1.0, +1.0);
+	glTexCoord2d(0.0, 1.0); glVertex2d(-1.0, +1.0);
+	glEnd();
+	glPopMatrix();
 	glutSwapBuffers();
-}
-void update(int value)
-{
-    rotate_1+=2.0f;
-    if(rotate_1>360.f)
-    {
-        rotate_1-=360;
-    }
-    glutPostRedisplay();
-    glutTimerFunc(25,update,0);
+	//glutSolidCube(2);
 }
 
-int main(int argc, char** argv) {
+void display() {
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glLoadIdentity();
+	gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	texture = LoadTexture("earth.bmp", 1024, 512); //load the texture
+	glEnable(GL_TEXTURE_2D); //enable 2D texturing
+	//    glEnable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
+	//    glEnable(GL_TEXTURE_GEN_T);
+	cube();
+	FreeTexture(texture);
+	//glutSwapBuffers();
+	//angle ++;
+}
+
+void reshape(int w, int h) {
+	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
+	glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity ();
+	gluPerspective(50, (GLfloat)w / (GLfloat)h, 1.0, 100.0);
+	glMatrixMode(GL_MODELVIEW);
+}
+
+int main(int argc, char **argv) {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE);
 	glutInitWindowSize(800, 800);
-
-	glutCreateWindow("Textures - videotutorialsrock.com");
-	initRendering();
-
-	//glutTimerFunc(25,update,0);
-
-	glutDisplayFunc(drawScene);
-	glutKeyboardFunc(handleKeypress);
-	glutReshapeFunc(handleResize);
-
+	glutInitWindowPosition(100, 100);
+	glutCreateWindow("A basic OpenGL Window");
+	glutDisplayFunc(display);
+	glutIdleFunc(display);
+	glutReshapeFunc(reshape);
 	glutMainLoop();
 	return 0;
 }
