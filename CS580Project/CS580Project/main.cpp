@@ -72,7 +72,7 @@ GLuint LoadTexture(const char * filename, int width, int height){
 void FreeTexture(GLuint texture){
 	glDeleteTextures(1, &texture);
 }
-
+/*
 void cube() {
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texture); //bind the texture
@@ -97,19 +97,59 @@ void cube() {
 	glPopMatrix();
 	glutSwapBuffers();
 	//glutSolidCube(2);
+}*/
+
+
+void cube() {
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture); //bind the texture
+
+	glPushMatrix();
+	glRotatef(angle, 0.0f, 0.0f, 1.0f);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0.0, 0.0); glVertex2d(-2.5, -2.5);
+	glTexCoord2d(1.0, 0.0); glVertex2d(+2.5, -2.5);
+	glTexCoord2d(1.0, 1.0); glVertex2d(+2.5, +2.5);
+	glTexCoord2d(0.0, 1.0); glVertex2d(-2.5, +2.5);
+	glEnd();
+	glPopMatrix();
+	glutSwapBuffers();
+	//glutSolidCube(2);
 }
 
+void cube1() {
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture1); //bind the texture
+
+	glPushMatrix();
+	glRotatef(angle, 0.0f, 0.0f, 1.0f);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0.0, 0.0); glVertex2d(-.5, -.5);
+	glTexCoord2d(1.0, 0.0); glVertex2d(+.5, -.5);
+	glTexCoord2d(1.0, 1.0); glVertex2d(+.5, +.5);
+	glTexCoord2d(0.0, 1.0); glVertex2d(-.5, +.5);
+	glEnd();
+	glPopMatrix();
+	glutSwapBuffers();
+	//glutSolidCube(2);
+}
 void display() {
 	//glClearColor(0.0, 0.0, 0.0, 1.0);
 	//glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
 	gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 	texture = LoadTexture("Sky-and-trees.bmp", 2560, 1920); //load the texture
-	texture1 = LoadTexture("earth.bmp", 1024, 512); //load the texture
+	//texture1 = LoadTexture("earth.bmp", 1024, 512); //load the texture
 	glEnable(GL_TEXTURE_2D); //enable 2D texturing
 	//    glEnable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
 	//    glEnable(GL_TEXTURE_GEN_T);
 	cube();
+	
+	texture1 = LoadTexture("earth.bmp", 1024, 512); //load the texture
+	glEnable(GL_TEXTURE_2D); //enable 2D texturing
+	//    glEnable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
+	//    glEnable(GL_TEXTURE_GEN_T);
+	cube1();
 	FreeTexture(texture);
 	//glutSwapBuffers();
 	//angle ++;
