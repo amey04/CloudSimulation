@@ -143,8 +143,8 @@ int ptex_fun(float u, float v, GzColor color)
 	for (int a = 0; a < octave; a++) {
 		double f = pow(2.0, a);
 		double amplitude = pow(0.5, a);
-		//noise_value += noise((u * f) / 75, v / (75 * f)) * a;
-		noise_value += generatenoise((u * f) / 75, v / (75 * f)) * a;
+		noise_value += noise((u * f) / 35, v / (35 * f)) * a;
+		//noise_value += generatenoise((u * f) / 75, v / (75 * f)) * a;
 	}
 
 	float noisevalue = noise_value;
@@ -183,9 +183,29 @@ int generateTexture(char *framebuffer, int width, int height) {
 
 			ptex_fun(i, j, textureColor);
 
-			finalColor[RED] = ctoi(textureColor[RED]);
-			finalColor[GREEN] = ctoi(textureColor[GREEN]);
-			finalColor[BLUE] = ctoi(textureColor[BLUE]);
+			finalColor[RED] = (int)(textureColor[RED] * 128) + 128;
+			finalColor[GREEN] = (int)(textureColor[GREEN] * 128) + 128;
+			finalColor[BLUE] = (int)(textureColor[BLUE] * 128) + 128;
+
+			if (finalColor[RED] > 255)
+				finalColor[RED] = 255;
+			if (finalColor[RED] < 0)
+				finalColor[RED] = 0;
+			if (finalColor[GREEN] > 255)
+				finalColor[GREEN] = 255;
+			if (finalColor[GREEN] < 0)
+				finalColor[GREEN] = 0;
+			if (finalColor[BLUE] > 255)
+				finalColor[BLUE] = 255;
+			if (finalColor[BLUE] < 0)
+				finalColor[BLUE] = 0;
+			
+			//finalColor[GREEN] = ctoi(textureColor[GREEN]);
+			//finalColor[BLUE] = ctoi(textureColor[BLUE]);
+
+			//finalColor[RED] = ctoi(textureColor[RED]);
+			//finalColor[GREEN] = ctoi(textureColor[GREEN]);
+			//finalColor[BLUE] = ctoi(textureColor[BLUE]);
 
 			*(framebuffer++) = (char)(finalColor[RED]);
 			*(framebuffer++) = (char)(finalColor[GREEN]);
