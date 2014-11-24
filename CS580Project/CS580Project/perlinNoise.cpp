@@ -149,7 +149,6 @@ int ptex_fun(float u, float v, GzColor color)
 
 	float noisevalue = noise_value;
 
-
 	noisevalue = (noisevalue + 1) / 2.0;
 
 	color[RED] = noisevalue;
@@ -199,13 +198,6 @@ int generateTexture(char *framebuffer, int width, int height) {
 				finalColor[BLUE] = 255;
 			if (finalColor[BLUE] < 0)
 				finalColor[BLUE] = 0;
-			
-			//finalColor[GREEN] = ctoi(textureColor[GREEN]);
-			//finalColor[BLUE] = ctoi(textureColor[BLUE]);
-
-			//finalColor[RED] = ctoi(textureColor[RED]);
-			//finalColor[GREEN] = ctoi(textureColor[GREEN]);
-			//finalColor[BLUE] = ctoi(textureColor[BLUE]);
 
 			*(framebuffer++) = (char)(finalColor[RED]);
 			*(framebuffer++) = (char)(finalColor[GREEN]);
@@ -219,7 +211,7 @@ int generateTexture(char *framebuffer, int width, int height) {
 }
 int GzFlushCloudTexture2File(char *framebuffer, int width, int height)
 {
-	
+	char finalColor[3];
 	FILE *outfile;
 	if ((fopen_s(&outfile, OUTFILE1, "w")) !=0)
 	{
@@ -233,8 +225,12 @@ int GzFlushCloudTexture2File(char *framebuffer, int width, int height)
 		fprintf(outfile, "P6 %d %d 255\r", width, height);
 
 		for (i = width-1; i >= 0; i--) {
+			finalColor[RED] = *framebuffer++;
+			finalColor[GREEN] = *framebuffer++;
+			finalColor[BLUE] = *framebuffer++;
+
 			for (j = 0; j < height; j++) {
-				fprintf(outfile, "%c%c%c", (*framebuffer++), (*framebuffer++), (*framebuffer++));
+				fprintf(outfile, "%c%c%c", finalColor[BLUE], finalColor[RED], finalColor[GREEN]);
 			}
 		}
 

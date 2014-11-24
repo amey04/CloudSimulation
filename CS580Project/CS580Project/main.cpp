@@ -88,9 +88,10 @@ void drawScene() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glRotatef(90,1.0f,0.0f,0.0f);
-	glRotatef(rotate_1,0.0f,0.0f,1.0f);
-	
+	glRotatef(270,1.0f,0.0f,0.0f);
+	//glRotatef(rotate_1,0.0f,0.0f,1.0f);
+	glTranslatef(rotate_1, 0.0f, 0.0f);
+	glScalef(1.7, 0.9, 1);
 	gluQuadricTexture(quad,1);
     gluSphere(quad,2,20,20);
 
@@ -98,10 +99,10 @@ void drawScene() {
 }
 void update(int value)
 {
-    rotate_1+=2.0f;
-    if(rotate_1>360.f)
+    rotate_1+=0.020f;
+    if(rotate_1>11.1)
     {
-        rotate_1-=360;
+        rotate_1 = 0.0f;
     }
     glutPostRedisplay();
     glutTimerFunc(25,update,0);
