@@ -3,6 +3,78 @@
 
 #include "perlinNoise.h"
 
+//------------------------------ Type 3 -- 3-D Perlin Noise ------------------------------
+
+inline double findnoise3D(double x, double y, double z)
+{
+	int m = (int)x + (int)y * 57 + (int)z * (57 * 57);
+	//float n = (pow((float)(m << 13), m));
+	int n = (m << 13) ^ m;
+	float temp_value = ((((15731 * (n * n)) + 789221) * n) + 1376312589);
+	int temp_value2 = (int)(temp_value) ^ 0x7ffffff;
+
+	return 1.0 - ((double)temp_value2 / 1073741823.0);
+}
+
+double noise3D(double x, double y, double z) {
+	
+	int minX = floor(x);
+	int minY = floor(y);
+	int minZ = floor(z);
+
+	//Corners of a cube
+	double noiseA = findnoise3D(minX, minY, minZ + 1);
+	double noiseB = findnoise3D(minX + 1, minY, minZ + 1);
+	double noiseC = findnoise3D(minX + 1, minY + 1, minZ + 1);
+	double noiseD = findnoise3D(minX, minY + 1, minZ + 1);
+	double noiseE = findnoise3D(minX, minY, minZ);
+	double noiseF = findnoise3D(minX + 1, minY, minZ);
+	double noiseG = findnoise3D(minX + 1, minY + 1, minZ);
+	double noiseH = findnoise3D(minX, minY + 1, minZ);
+
+	//Sides of a Cube
+	double sidenoiseA = findnoise3D(x, y, minZ + 1);
+	double sidenoiseB = findnoise3D(minX + 1, y, z);
+	double sidenoiseC = findnoise3D(x, y, minZ);
+	double sidenoiseD = findnoise3D(minX, y, z);
+	double sidenoiseE = findnoise3D(x, minY + 1, z);
+	double sidenoiseF = findnoise3D(x, minY, z);
+
+	//Middle of Edges
+	double midedgenoiseA = findnoise3D(minX, y, minZ);
+	double midedgenoiseB = findnoise3D(minX +1, y, minZ);
+	double midedgenoiseC = findnoise3D(x, minY + 1, minZ);
+	double midedgenoiseD = findnoise3D(x, minY, minZ);
+
+	double midedgenoiseE = findnoise3D(minX, y, minZ + 1);
+	double midedgenoiseF = findnoise3D(minX + 1, y, minZ + 1);
+	double midedgenoiseG = findnoise3D(x, minY + 1, minZ + 1);
+	double midedgenoiseH = findnoise3D(x, minY, minZ + 1);
+
+	double midedgenoiseI = findnoise3D(minX, minY, z);
+	double midedgenoiseJ = findnoise3D(minX + 1, minY, z);
+	double midedgenoiseK = findnoise3D(minX, minY + 1, z);
+	double midedgenoiseL = findnoise3D(minX + 1, minY + 1, z);
+
+	double alpha = 9 / 18;
+	double beta = 2 / (8 * 18);
+	double gamma = 4 / (6 * 18);
+	double delta = 3 / (12 * 18);
+
+	double totalCornerNoise = noiseA + noiseB + noiseC + noiseD + noiseE + noiseF + noiseG + noiseH;
+	double totalSideNoise = sidenoiseA + sidenoiseB + sidenoiseC + sidenoiseD + sidenoiseE + sidenoiseF;
+	double totalMidEdgeNoise = midedgenoiseA + midedgenoiseB + midedgenoiseC + midedgenoiseD
+		+ midedgenoiseE + midedgenoiseF + midedgenoiseG + midedgenoiseH
+		+ midedgenoiseI + midedgenoiseJ + midedgenoiseK + midedgenoiseL;
+
+	double f = (alpha * findnoise3D(x, y, z)) +
+		(beta * totalCornerNoise) +
+		(gamma * totalSideNoise) +
+		(delta * totalMidEdgeNoise);
+}
+
+//----------------------------------------------------------------------------------------
+
 //-------------------------- Type 1 -----------------------------------------
 inline double interpolate1(double a, double b, double x)
 {
@@ -15,6 +87,7 @@ inline double findnoise2(double x, double y)
 {
 	int n = (int)x + (int)y * 57;
 	n = (n << 13) ^ n;
+	//n = pow((float)(n << 13) , n);
 	int nn = (n*(n*n * 60493 + 19990303) + 1376312589) & 0x7fffffff;
 	return 1.0 - ((double)nn / 1073741824.0);
 }
@@ -25,10 +98,10 @@ double noise(double x, double y)
 	double floory = (double)((int)y);
 
 	double s, t, u, v;//Integer declaration
-	s = findnoise2(floorx, floory);
-	t = findnoise2(floorx + 1, floory);
-	u = findnoise2(floorx, floory + 1);//Get the surrounding pixels to calculate the transition.
-	v = findnoise2(floorx + 1, floory + 1);
+	s = findnoise3D(floorx, floory, 1);
+	t = findnoise3D(floorx + 1, floory, 1);
+	u = findnoise3D(floorx, floory + 1, 1);//Get the surrounding pixels to calculate the transition.
+	v = findnoise3D(floorx + 1, floory + 1, 1);
 
 	double int1 = interpolate1(s, t, x - floorx);//Interpolate between the values.
 	double int2 = interpolate1(u, v, x - floorx);//Here we use x-floorx, to get 1st dimension. Don't mind the x-floorx thingie, it's part of the cosine formula.
@@ -128,6 +201,9 @@ float generatenoise(float u, float v) {
 
 //---------------------------- End of Type Two ------------------------------------------
 
+
+
+
 short	ctoi(float color)		/* convert float color to GzIntensity short */
 {
 	return(short)((int)(color * ((1 << 12) - 1)));
@@ -143,7 +219,7 @@ int ptex_fun(float u, float v, GzColor color)
 	for (int a = 0; a < octave; a++) {
 		double f = pow(2.0, a);
 		double amplitude = pow(0.5, a);
-		noise_value += noise((u * f) / 35, v / (35 * f)) * a;
+		noise_value += noise((u * f) / 75, v / (75 * f)) * a;
 		//noise_value += generatenoise((u * f) / 75, v / (75 * f)) * a;
 	}
 

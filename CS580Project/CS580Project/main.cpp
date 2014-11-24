@@ -86,14 +86,24 @@ void drawScene() {
 	//Bottom
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
 	glRotatef(270,1.0f,0.0f,0.0f);
+	
 	//glRotatef(rotate_1,0.0f,0.0f,1.0f);
-	glTranslatef(rotate_1, 0.0f, 0.0f);
+	//glTranslatef(rotate_1, 0.0f, 0.0f);
+
 	glScalef(1.7, 0.9, 1);
 	gluQuadricTexture(quad,1);
     gluSphere(quad,2,20,20);
+
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, _textureId);
+	//glTranslatef(1.6f, 0.0f, 0.0f);
+	//gluSphere(quad, 1, 20, 20);
+	//glTranslatef(.7f, 0.0f, 0.0f);
+	//gluSphere(quad, 1, 20, 20);
 
 	glutSwapBuffers();
 }
