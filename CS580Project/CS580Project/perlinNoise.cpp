@@ -5,6 +5,13 @@
 
 //------------------------------ Type 3 -- 3-D Perlin Noise ------------------------------
 
+inline double cosineinterpolate(double a, double b, double x)
+{
+	double pi_x = x * 3.1415927;
+	double f = (1.0 - cos(pi_x));
+	return (a*(1.0 - f)) + (0.5 *b*f);
+}
+
 inline double findnoise3D(double x, double y, double z)
 {
 	int m = (int)x + (int)y * 57 + (int)z * (57 * 57);
@@ -16,50 +23,50 @@ inline double findnoise3D(double x, double y, double z)
 	return 1.0 - ((double)temp_value2 / 1073741823.0);
 }
 
-double noise3D(double x, double y, double z) {
+double calc_f(double x, double y, double z) {
 	
-	int minX = floor(x);
-	int minY = floor(y);
-	int minZ = floor(z);
+	int minX = x - 1;
+	int minY = y - 1;
+	int minZ = z - 1;
 
 	//Corners of a cube
-	double noiseA = findnoise3D(minX, minY, minZ + 1);
-	double noiseB = findnoise3D(minX + 1, minY, minZ + 1);
-	double noiseC = findnoise3D(minX + 1, minY + 1, minZ + 1);
-	double noiseD = findnoise3D(minX, minY + 1, minZ + 1);
-	double noiseE = findnoise3D(minX, minY, minZ);
-	double noiseF = findnoise3D(minX + 1, minY, minZ);
-	double noiseG = findnoise3D(minX + 1, minY + 1, minZ);
-	double noiseH = findnoise3D(minX, minY + 1, minZ);
+	double noiseA = findnoise3D(x - 1, y - 1, z + 1);
+	double noiseB = findnoise3D(x + 1, y - 1, z + 1);
+	double noiseC = findnoise3D(x + 1, y + 1, z + 1);
+	double noiseD = findnoise3D(x - 1, y + 1, z + 1);
+	double noiseE = findnoise3D(x - 1, y - 1, z - 1);
+	double noiseF = findnoise3D(x + 1, y - 1, z - 1);
+	double noiseG = findnoise3D(x + 1, y + 1, z - 1);
+	double noiseH = findnoise3D(x - 1, y + 1, z - 1);
 
 	//Sides of a Cube
-	double sidenoiseA = findnoise3D(x, y, minZ + 1);
-	double sidenoiseB = findnoise3D(minX + 1, y, z);
-	double sidenoiseC = findnoise3D(x, y, minZ);
-	double sidenoiseD = findnoise3D(minX, y, z);
-	double sidenoiseE = findnoise3D(x, minY + 1, z);
-	double sidenoiseF = findnoise3D(x, minY, z);
+	double sidenoiseA = findnoise3D(x, y, z + 1);
+	double sidenoiseB = findnoise3D(x + 1, y, z);
+	double sidenoiseC = findnoise3D(x, y, z - 1);
+	double sidenoiseD = findnoise3D(x - 1, y, z);
+	double sidenoiseE = findnoise3D(x, y + 1, z);
+	double sidenoiseF = findnoise3D(x, y - 1, z);
 
 	//Middle of Edges
-	double midedgenoiseA = findnoise3D(minX, y, minZ);
-	double midedgenoiseB = findnoise3D(minX +1, y, minZ);
-	double midedgenoiseC = findnoise3D(x, minY + 1, minZ);
-	double midedgenoiseD = findnoise3D(x, minY, minZ);
+	double midedgenoiseA = findnoise3D(x - 1, y, z - 1);
+	double midedgenoiseB = findnoise3D(x + 1, y, z - 1);
+	double midedgenoiseC = findnoise3D(x, y + 1, z - 1);
+	double midedgenoiseD = findnoise3D(x, y - 1, z - 1);
 
-	double midedgenoiseE = findnoise3D(minX, y, minZ + 1);
-	double midedgenoiseF = findnoise3D(minX + 1, y, minZ + 1);
-	double midedgenoiseG = findnoise3D(x, minY + 1, minZ + 1);
-	double midedgenoiseH = findnoise3D(x, minY, minZ + 1);
+	double midedgenoiseE = findnoise3D(x - 1, y, z + 1);
+	double midedgenoiseF = findnoise3D(x + 1, y, z + 1);
+	double midedgenoiseG = findnoise3D(x, y + 1, z + 1);
+	double midedgenoiseH = findnoise3D(x, y - 1, z + 1);
 
-	double midedgenoiseI = findnoise3D(minX, minY, z);
-	double midedgenoiseJ = findnoise3D(minX + 1, minY, z);
-	double midedgenoiseK = findnoise3D(minX, minY + 1, z);
-	double midedgenoiseL = findnoise3D(minX + 1, minY + 1, z);
+	double midedgenoiseI = findnoise3D(x - 1, y - 1, z);
+	double midedgenoiseJ = findnoise3D(x + 1, y - 1, z);
+	double midedgenoiseK = findnoise3D(x - 1, y + 1, z);
+	double midedgenoiseL = findnoise3D(x + 1, y + 1, z);
 
-	double alpha = 9 / 18;
-	double beta = 2 / (8 * 18);
-	double gamma = 4 / (6 * 18);
-	double delta = 3 / (12 * 18);
+	double alpha = 9.0 / 18.0;
+	double beta = 2.0 / (8.0 * 18.0);
+	double gamma = 4.0 / (6.0 * 18.0);
+	double delta = 3.0 / (12.0 * 18.0);
 
 	double totalCornerNoise = noiseA + noiseB + noiseC + noiseD + noiseE + noiseF + noiseG + noiseH;
 	double totalSideNoise = sidenoiseA + sidenoiseB + sidenoiseC + sidenoiseD + sidenoiseE + sidenoiseF;
@@ -71,6 +78,120 @@ double noise3D(double x, double y, double z) {
 		(beta * totalCornerNoise) +
 		(gamma * totalSideNoise) +
 		(delta * totalMidEdgeNoise);
+	
+	return f;
+}
+double noise3D(double x, double y, double z) {
+
+	double x_i = floor(x);
+	double y_i = floor(x);
+	double z_i = floor(x);
+
+	double x_f = x - x_i;
+	double y_f = x - x_i;
+	double z_f = x - x_i;
+
+	double XYZ = calc_f(x_i + 1, y_i + 1, z_i + 1);
+	double xYZ = calc_f(x_i, y_i + 1, z_i + 1);
+	double XyZ = calc_f(x_i + 1, y_i, z_i + 1);
+	double xyZ = calc_f(x_i, y_i, z_i + 1);
+	double XYz = calc_f(x_i + 1, y_i + 1, z_i);
+	double xYz = calc_f(x_i, y_i + 1, z_i);
+	double Xyz = calc_f(x_i + 1, y_i, z_i);
+	double xyz = calc_f(x_i, y_i, z_i);
+
+	double iYZ = cosineinterpolate(xYZ, XYZ, x_f);
+	double iyZ = cosineinterpolate(xyZ, XyZ, x_f);
+	double iYz = cosineinterpolate(xYz, XYz, x_f);
+	double iyz = cosineinterpolate(xyz, Xyz, x_f);
+
+	double iZ = cosineinterpolate(iyZ, iYZ, y_f);
+	double iz = cosineinterpolate(iyz, iYz, y_f);
+
+	double h = cosineinterpolate(iz, iZ, z_f);
+	//printf("h = %f  \n", h);
+	return h;
+}
+
+int getPerlinNoise(double x, double y, double z, GzColor color){
+
+	int Z = 4;
+	double perlin_noise_value = 0.0;
+	double s = 0.5;
+
+	for (int i = 0; i < Z; i++) {
+		double omega = pow(2.0, i);
+		double phi = pow(s, i);
+		double noise_value_h = noise3D((omega *x), (omega *y), (omega *z));
+		
+		perlin_noise_value += (phi * noise_value_h);
+		//printf("Omega = %f phi = %f perlin_noise_value = %f \n", omega, phi, perlin_noise_value);
+	}
+
+	float p_noise = abs(perlin_noise_value);
+
+	printf("p_noise = %f \n", p_noise);
+
+	color[RED] = p_noise;
+	color[GREEN] = (p_noise);
+	//color[BLUE] = p_noise;
+	color[BLUE] = 1;
+
+	if (color[RED] > 1)
+		color[RED] = 1;
+	if (color[GREEN] > 1)
+		color[GREEN] = 1;
+	if (color[BLUE] > 1)
+		color[BLUE] = 1;
+
+	return 0;
+}
+
+int generateTexture3D(char *framebuffer, int width, int height) {
+
+	GzColor textureColor = { 0, 0, 0 };
+	GzIntensity finalColor[] = { 0, 0, 0 };
+
+	char *copybuffer = framebuffer;
+
+	for (int i = 0; i < width; i++){
+		for (int j = 0; j < height; j++){
+			printf("%d, %d \n", i, j);
+			for (int k = 0; k < width; k++) {
+
+				textureColor[RED] = 0;
+				textureColor[GREEN] = 0;
+				textureColor[BLUE] = 0;
+
+				double noise = getPerlinNoise(i, j, k, textureColor);
+				printf("%f \n", textureColor[RED]);
+				finalColor[RED] = (int)(textureColor[RED] * 128) + 128;
+				finalColor[GREEN] = (int)(textureColor[GREEN] * 128) + 128;
+				finalColor[BLUE] = (int)(textureColor[BLUE] * 128) + 128;
+
+				if (finalColor[RED] > 255)
+					finalColor[RED] = 255;
+				if (finalColor[RED] < 0)
+					finalColor[RED] = 0;
+				if (finalColor[GREEN] > 255)
+					finalColor[GREEN] = 255;
+				if (finalColor[GREEN] < 0)
+					finalColor[GREEN] = 0;
+				if (finalColor[BLUE] > 255)
+					finalColor[BLUE] = 255;
+				if (finalColor[BLUE] < 0)
+					finalColor[BLUE] = 0;
+
+				*(framebuffer++) = (char)(finalColor[RED]);
+				*(framebuffer++) = (char)(finalColor[GREEN]);
+				*(framebuffer++) = (char)(finalColor[BLUE]);
+			}
+		}
+	}
+
+	GzFlushCloudTexture2File(copybuffer, width, height);
+
+	return 0;
 }
 
 //----------------------------------------------------------------------------------------
@@ -249,7 +370,7 @@ int generateTexture(char *framebuffer, int width, int height) {
 
 	char *copybuffer = framebuffer;
 
-	for (int i = 255; i >= 0; i--){
+	for (int i = 0; i < 256; i++){
 		for (int j = 0; j < 256; j++){
 
 			textureColor[RED] = 0;
@@ -296,17 +417,20 @@ int GzFlushCloudTexture2File(char *framebuffer, int width, int height)
 	}
 
 	/* write pixels to ppm file based on display class -- "P6 %d %d 255\r" */
-	int i, j;
+	int i, j, k;
 	if (outfile != NULL && framebuffer != NULL) {
 		fprintf(outfile, "P6 %d %d 255\r", width, height);
 
-		for (i = width-1; i >= 0; i--) {
-			finalColor[RED] = *framebuffer++;
-			finalColor[GREEN] = *framebuffer++;
-			finalColor[BLUE] = *framebuffer++;
+		for (i = 0; i < width; i++) {
 
 			for (j = 0; j < height; j++) {
-				fprintf(outfile, "%c%c%c", finalColor[BLUE], finalColor[RED], finalColor[GREEN]);
+
+				for (k = 0; k < width; k++) {
+					finalColor[RED] = *framebuffer++;
+					finalColor[GREEN] = *framebuffer++;
+					finalColor[BLUE] = *framebuffer++;
+					fprintf(outfile, "%c%c%c", finalColor[BLUE], finalColor[RED], finalColor[GREEN]);
+				}
 			}
 		}
 

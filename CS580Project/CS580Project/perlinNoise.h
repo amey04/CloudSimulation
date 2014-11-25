@@ -12,3 +12,4 @@ short	ctoi(float color);
 int ptex_fun(float u, float v, GzColor color);
 int generateTexture(char *framebuffer, int width, int height);
 int GzFlushCloudTexture2File(char *framebuffer, int width, int height);
+int generateTexture3D(char *framebuffer, int width, int height);

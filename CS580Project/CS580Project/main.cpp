@@ -26,12 +26,13 @@ GLuint loadTexture(Image* image) {
 	glGenTextures(1, &textureId); //Make room for our texture
 	glBindTexture(GL_TEXTURE_2D, textureId); //Tell OpenGL which texture to edit
 
-	int width = 256;
-	int height = 256;
+	int width = 3;
+	int height = 3;
 
-	char *framebuffer = (char *)malloc((3 * sizeof(char) * width * height));
+	char *framebuffer = (char *)malloc((3 * sizeof(char) * width * height * width));
 
-	generateTexture(framebuffer, width, height);
+	//generateTexture(framebuffer, width, height);
+	generateTexture3D(framebuffer, width, height);
 
 	//Map the image to the texture
 	glTexImage2D(GL_TEXTURE_2D,                //Always GL_TEXTURE_2D
