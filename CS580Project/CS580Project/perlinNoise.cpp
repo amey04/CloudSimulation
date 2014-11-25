@@ -15,12 +15,13 @@ inline double cosineinterpolate(double a, double b, double x)
 inline double findnoise3D(double x, double y, double z)
 {
 	int m = (int)x + (int)y * 57 + (int)z * (57 * 57);
-	//float n = (pow((float)(m << 13), m));
-	int n = (m << 13) ^ m;
-	float temp_value = ((((15731 * (n * n)) + 789221) * n) + 1376312589);
-	int temp_value2 = (int)(temp_value) ^ 0x7ffffff;
+	long temp = m << 13;
+	long n = temp ^ m;
+	//int n = (m << 13) ^ m;
+	long temp_value = ((((15731 * (n * n)) + 789221) * n) + 1376312589);
+	long temp_value2 = (temp_value) & 0x7ffffff;
 
-	return 1.0 - ((double)temp_value2 / 1073741823.0);
+	return 1.0 - ((float)temp_value2 / 1073741823.0);
 }
 
 double calc_f(double x, double y, double z) {
@@ -84,12 +85,12 @@ double calc_f(double x, double y, double z) {
 double noise3D(double x, double y, double z) {
 
 	double x_i = floor(x);
-	double y_i = floor(x);
-	double z_i = floor(x);
+	double y_i = floor(y);
+	double z_i = floor(z);
 
 	double x_f = x - x_i;
-	double y_f = x - x_i;
-	double z_f = x - x_i;
+	double y_f = y - y_i;
+	double z_f = z - z_i;
 
 	double XYZ = calc_f(x_i + 1, y_i + 1, z_i + 1);
 	double xYZ = calc_f(x_i, y_i + 1, z_i + 1);
@@ -115,7 +116,7 @@ double noise3D(double x, double y, double z) {
 
 int getPerlinNoise(double x, double y, double z, GzColor color){
 
-	int Z = 4;
+	int Z = 2;
 	double perlin_noise_value = 0.0;
 	double s = 0.5;
 
@@ -156,18 +157,36 @@ int generateTexture3D(char *framebuffer, int width, int height) {
 
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++){
-			printf("%d, %d \n", i, j);
+			//printf("%d, %d \n", i, j);
 			for (int k = 0; k < width; k++) {
+			//int k = 2;
+				finalColor[RED] = 0;
+				finalColor[GREEN] = 0;
+				finalColor[BLUE] = 0;
+				float ci, cj, ck;
+				ci = i;
+				cj = j;
+				ck = k;
+				for (int l = 0; l < 10; l++) {
 
-				textureColor[RED] = 0;
-				textureColor[GREEN] = 0;
-				textureColor[BLUE] = 0;
+					
+					textureColor[RED] = 0;
+					textureColor[GREEN] = 0;
+					textureColor[BLUE] = 0;
 
-				double noise = getPerlinNoise(i, j, k, textureColor);
-				printf("%f \n", textureColor[RED]);
-				finalColor[RED] = (int)(textureColor[RED] * 128) + 128;
-				finalColor[GREEN] = (int)(textureColor[GREEN] * 128) + 128;
-				finalColor[BLUE] = (int)(textureColor[BLUE] * 128) + 128;
+					double noise = getPerlinNoise(ci, cj, ck, textureColor);
+					ci += 0.1;
+					cj += 0.1;
+					ck += 0.1;
+
+					//printf("%f \n", textureColor[RED]);
+					finalColor[RED] += (int)(textureColor[RED] * 128) + 128;
+					finalColor[GREEN] += (int)(textureColor[GREEN] * 128) + 128;
+					finalColor[BLUE] += (int)(textureColor[BLUE] * 128) + 128;
+				}
+				finalColor[RED] /= 10;
+				finalColor[GREEN] /= 10;
+				finalColor[BLUE] /= 10;
 
 				if (finalColor[RED] > 255)
 					finalColor[RED] = 255;
@@ -219,10 +238,10 @@ double noise(double x, double y)
 	double floory = (double)((int)y);
 
 	double s, t, u, v;//Integer declaration
-	s = findnoise3D(floorx, floory, 1);
-	t = findnoise3D(floorx + 1, floory, 1);
-	u = findnoise3D(floorx, floory + 1, 1);//Get the surrounding pixels to calculate the transition.
-	v = findnoise3D(floorx + 1, floory + 1, 1);
+	s = findnoise2(floorx, floory);
+	t = findnoise2(floorx + 1, floory);
+	u = findnoise2(floorx, floory + 1);//Get the surrounding pixels to calculate the transition.
+	v = findnoise2(floorx + 1, floory + 1);
 
 	double int1 = interpolate1(s, t, x - floorx);//Interpolate between the values.
 	double int2 = interpolate1(u, v, x - floorx);//Here we use x-floorx, to get 1st dimension. Don't mind the x-floorx thingie, it's part of the cosine formula.
@@ -340,7 +359,7 @@ int ptex_fun(float u, float v, GzColor color)
 	for (int a = 0; a < octave; a++) {
 		double f = pow(2.0, a);
 		double amplitude = pow(0.5, a);
-		noise_value += noise((u * f) / 75, v / (75 * f)) * a;
+		noise_value += noise((u * f) / 35, v / (35 * f)) * a;
 		//noise_value += generatenoise((u * f) / 75, v / (75 * f)) * a;
 	}
 
@@ -370,8 +389,8 @@ int generateTexture(char *framebuffer, int width, int height) {
 
 	char *copybuffer = framebuffer;
 
-	for (int i = 0; i < 256; i++){
-		for (int j = 0; j < 256; j++){
+	for (int i = 0; i < width; i++){
+		for (int j = 0; j < height; j++){
 
 			textureColor[RED] = 0;
 			textureColor[GREEN] = 0;
@@ -425,12 +444,12 @@ int GzFlushCloudTexture2File(char *framebuffer, int width, int height)
 
 			for (j = 0; j < height; j++) {
 
-				for (k = 0; k < width; k++) {
+				//for (k = 0; k < width; k++) {
 					finalColor[RED] = *framebuffer++;
 					finalColor[GREEN] = *framebuffer++;
 					finalColor[BLUE] = *framebuffer++;
 					fprintf(outfile, "%c%c%c", finalColor[BLUE], finalColor[RED], finalColor[GREEN]);
-				}
+				//}
 			}
 		}
 
