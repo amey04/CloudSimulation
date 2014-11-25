@@ -73,13 +73,13 @@ GLuint LoadTexture(const char * filename, int width, int height){
 void FreeTexture(GLuint texture){
 	glDeleteTextures(1, &texture);
 }
-
+/*
 void cube1() {
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texture1); //bind the texture
 	quad = gluNewQuadric();
 	glPushMatrix();
-	glRotatef(angle, 0.0f, 0.0f, 1.0f);
+	//glRotatef(angle, 0.0f, 0.0f, 1.0f);
 
 	/*glBegin(GL_QUADS);
 	glTexCoord2d(0.0, 0.0); glVertex2d(-.5, -.5);
@@ -87,13 +87,15 @@ void cube1() {
 	glTexCoord2d(1.0, 1.0); glVertex2d(+.5, +.5);
 	glTexCoord2d(0.0, 1.0); glVertex2d(-.5, +.5);
 	glEnd();*/
+/*
 	gluQuadricTexture(quad, 1);
+	
 	gluSphere(quad, 0.5, 50, 50);
 	glPopMatrix();
 	glutSwapBuffers();
 	//glutSolidCube(2);
 }
-
+*/
 void cube() {
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texture); //bind the texture
@@ -120,6 +122,35 @@ void cube() {
 	//glutSolidCube(2);
 }
 
+void rect() {
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture1); //bind the texture
+
+	glPushMatrix();
+	glRotatef(angle, 0.0f, 0.0f, 1.0f);
+	glBegin(GL_QUADS);
+
+	glTexCoord2d(0.0, 0.0); glVertex2d(-3.0, -.5);
+	glTexCoord2d(1.0, 0.0); glVertex2d(+3.0, -.5);
+	glTexCoord2d(1.0, 1.0); glVertex2d(+3.0, +.5);
+	glTexCoord2d(0.0, 1.0); glVertex2d(-3.0, +.5);
+	glEnd();
+
+	/*glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture1); //bind the texture
+	glBegin(GL_QUADS);
+	glTexCoord2d(0.0, 0.0); glVertex2d(-.5, -.5);
+	glTexCoord2d(1.0, 0.0); glVertex2d(+.5, -.5);
+	glTexCoord2d(1.0, 1.0); glVertex2d(+.5, +.5);
+	glTexCoord2d(0.0, 1.0); glVertex2d(-.5, +.5);
+	glEnd();*/
+	glPopMatrix();
+	glutSwapBuffers();
+	//glutSolidCube(2);
+}
+
+
+
 void display() {
 	//glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -131,9 +162,12 @@ void display() {
 	//    glEnable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
 	//    glEnable(GL_TEXTURE_GEN_T);
 	cube();
-	texture1 = LoadTexture("earth.bmp", 1024, 512); //load the texture
+	glTranslatef(0.0f, 1.5f, 1.0f);
+
+	texture1 = LoadTexture("cloud.bmp", 512, 512); //load the texture
 	glEnable(GL_TEXTURE_2D);
-	cube1();
+	//cube1();
+	rect();
 	//FreeTexture(texture);
 	//FreeTexture(texture1);
 	//glutSwapBuffers();
