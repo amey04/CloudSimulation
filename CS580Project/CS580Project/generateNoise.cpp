@@ -24,19 +24,18 @@ int generateTexture2D(char *framebuffer, int width, int height) {
 
 	char *copybuffer = framebuffer;
 
-	Perlin *per = new Perlin(4, 0.5, 2.0, 10);
+	Perlin *per = new Perlin(4, 6.5, 0.5, 10);
 
 	for (float x = 0; x < 256; x += 1) {
 		for (float y = 0; y < 256; y += 1) {
 
 			//float noise = per->Get(x, y);
-
-			//textureColor[RED] = finddensity(y, x, 256, 256, noise, 160);
-			//textureColor[GREEN] = finddensity(y, x, 256, 256, noise, 160);
-
 			float noise = perlin_type1_2D(x, y);
+			
+			//textureColor[RED] = finddensity(y, x, 256, 256, noise, 145);
+			//textureColor[GREEN] = finddensity(y, x, 256, 256, noise, 145);
 
-			textureColor[RED] = noise; // finddensity(y, x, 256, 256, noise, 160);
+			textureColor[RED] = noise; 
 			textureColor[GREEN] = noise;
 			textureColor[BLUE] = 0.8;
 

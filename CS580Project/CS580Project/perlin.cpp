@@ -224,7 +224,7 @@ float Perlin::perlin_noise_3D(float vec[3]) {
 	//printf("%f, %f, %f \n ", vec[0], vec[1], vec[2]);
 
 	vec[0] *= mFrequency /35;
-	vec[1] *= mFrequency/35;
+	vec[1] /=(mFrequency *35);
 	vec[2] *= mFrequency;
 
 	for(int i=0; i<terms; i++ ) {
@@ -234,7 +234,7 @@ float Perlin::perlin_noise_3D(float vec[3]) {
 		vec[2] *= 2.0f;
 		amp*=0.5f;
 	}
-	printf("%f \n", result);
+	//printf("%f \n", result);
 	return result;
 }
 

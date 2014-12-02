@@ -1,5 +1,6 @@
 #include "perlin.h"
 #include "noiseType1.h"
+#include "kenPerlinNoise.h"
 
 typedef short   GzIntensity;
 typedef float   GzColor[3];

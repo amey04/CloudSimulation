@@ -83,7 +83,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="generateNoise.h" />
+    <ClInclude Include="generateNoise3D.h" />
     <ClInclude Include="imageloader.h" />
+    <ClInclude Include="kenPerlinNoise.h" />
     <ClInclude Include="noiseType1.h" />
     <ClInclude Include="perlin.h" />
     <ClInclude Include="perlinNoise.h" />
@@ -92,7 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="generateNoise.cpp" />
+    <ClCompile Include="generateNoise3D.cpp" />
     <ClCompile Include="imageloader.cpp" />
+    <ClCompile Include="kenPerlinNoise.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="noiseType1.cpp" />
     <ClCompile Include="perlin.cpp" />

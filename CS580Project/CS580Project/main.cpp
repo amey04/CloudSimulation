@@ -6,6 +6,7 @@
 
 #include "imageloader.h"
 #include "generateNoise.h"
+#include "generateNoise3D.h"
 
 using namespace std;
 
@@ -32,7 +33,8 @@ GLuint loadTexture(Image* image) {
 	char *framebuffer = (char *)malloc((3 * sizeof(char) * width * height));
 
 	//generateTexture(framebuffer, width, height);
-	generateTexture2D(framebuffer, width, height);
+	//generateTexture2D(framebuffer, width, height);
+	generateTexture3D(framebuffer, width, height);
 
 	//Map the image to the texture
 	glTexImage2D(GL_TEXTURE_2D,                //Always GL_TEXTURE_2D
@@ -95,7 +97,7 @@ void drawScene() {
 	glRotatef(rotate_1,0.0f,0.0f,1.0f);
 	//glTranslatef(rotate_1, 0.0f, 0.0f);
 
-	//glScalef(1.7, 0.9, 1);
+	glScalef(1.7, 0.9, 1);
 	gluQuadricTexture(quad,1);
     gluSphere(quad,4,20,20);
 
