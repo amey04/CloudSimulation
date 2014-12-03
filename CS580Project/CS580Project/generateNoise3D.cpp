@@ -10,6 +10,8 @@ float finddensity3D(float x, float y, float height, float width, float noise, fl
 
 	float distance = sqrt(pow((x - center_x), 2) + pow((y - center_y), 2));
 
+	if (noise >= 1)
+		noise = 0.5;
 	noise = noise + (1.0 - (distance / radius));
 
 	if (noise  < 0) {
@@ -39,27 +41,36 @@ int generateTexture3D(char *framebuffer, int width, int height) {
 			}
 			noise /= 25;
 
-			textureColor[RED] = finddensity3D(y, x, 256, 256, noise, 45);
-			textureColor[GREEN] = finddensity3D(y, x, 256, 256, noise, 45);
+			float noise_value = finddensity3D(y, x, 256, 256, noise, 45);
+			float alpha = noise_value / 1.0f;
+			
+			textureColor[RED] = noise;
+			textureColor[GREEN] = noise;
+			textureColor[BLUE] = noise;
 
-			//textureColor[RED] = noise; 
-			//textureColor[GREEN] = noise;
-			textureColor[BLUE] = 0.8;
+			finalColor[RED] = (int)(textureColor[RED] * 255) + 220;
+			finalColor[GREEN] = (int)(textureColor[GREEN] * 255) + 220;
+			finalColor[BLUE] = (int)(textureColor[BLUE] * 255) + 220;
+			
 
-			finalColor[RED] = (int)(textureColor[RED] * 255);
-			finalColor[GREEN] = (int)(textureColor[GREEN] * 255);
-			finalColor[BLUE] = (int)(textureColor[BLUE] * 255);
+			/*finalColor[RED] = (int)((finalColor[RED])*alpha + (1 - alpha) * 162);
+			finalColor[GREEN] = (int)((finalColor[GREEN])*alpha + (1 - alpha) * 201);
+			finalColor[BLUE] = (int)((finalColor[BLUE])*alpha + (1 - alpha) * 234);*/
 
-			if (finalColor[RED] > 255)
-				finalColor[RED] = 255;
+			finalColor[RED] = (int)((finalColor[RED])*alpha + (1 - alpha) * 69);
+			finalColor[GREEN] = (int)((finalColor[GREEN])*alpha + (1 - alpha) * 137);
+			finalColor[BLUE] = (int)((finalColor[BLUE])*alpha + (1 - alpha) * 198);
+
+			if (finalColor[RED] >= 255)
+				finalColor[RED] = 234;
 			if (finalColor[RED] < 0)
 				finalColor[RED] = 0;
-			if (finalColor[GREEN] > 255)
-				finalColor[GREEN] = 255;
+			if (finalColor[GREEN] >= 255)
+				finalColor[GREEN] = 234;
 			if (finalColor[GREEN] < 0)
 				finalColor[GREEN] = 0;
-			if (finalColor[BLUE] > 255)
-				finalColor[BLUE] = 255;
+			if (finalColor[BLUE] >= 255)
+				finalColor[BLUE] = 234;
 			if (finalColor[BLUE] < 0)
 				finalColor[BLUE] = 0;
 
