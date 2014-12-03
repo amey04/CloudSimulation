@@ -42,6 +42,9 @@
     <ClInclude Include="generateNoise3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="noiseType2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="generateNoise3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="noiseType2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -64,3 +64,61 @@ int generateTexture2D(char *framebuffer, int width, int height) {
 	}
 	return 0;
 }
+
+int generateNoiseType2(char *framebuffer, int width, int height) {
+	GzColor textureColor = { 0, 0, 0 };
+	int finalColor[] = { 0, 0, 0 };
+
+	int seed = 63;
+	int wide =12413;
+
+	float  disp1, disp2, disp3, disp4, disp5, disp6;
+
+	for (float x = 0; x < 256; x += 1) {
+		for (float y = 0; y < 256; y += 1) {
+
+			disp1 = PerlinNoise(x, y, wide, 2, seed, 100);
+			disp2 = PerlinNoise(x, y, wide, 2, seed, 25);
+			disp3 = PerlinNoise(x, y, wide, 2, seed, 12.5);
+			disp4 = PerlinNoise(x, y, wide, 2, seed, 6.25);
+			disp5 = PerlinNoise(x, y, wide, 2, seed, 3.125);
+			disp6 = PerlinNoise(x, y, wide, 2, seed, 1.56);
+
+			//float noise = disp1 + (disp2*.25) + (disp3*.125) + (disp4*.0625) + (disp5*.03125) + (disp6*.0156);
+
+			//float noise = disp1 + (disp2*.25) + (disp3*.125) + (disp4*.0625) + (disp5*.03125) + (disp6*.0156);
+			float noise = disp6;
+
+			textureColor[RED] = noise;
+			textureColor[GREEN] = noise;
+			textureColor[BLUE] = 255;
+
+		    finalColor[RED] = (int)(textureColor[RED]);
+			finalColor[GREEN] = (int)(textureColor[GREEN]);
+			finalColor[BLUE] = (int)(textureColor[BLUE]);
+
+			/*finalColor[RED] = (int)(textureColor[RED] * 255);
+			finalColor[GREEN] = (int)(textureColor[GREEN] * 255);
+			finalColor[BLUE] = (int)(textureColor[BLUE] * 255);*/
+
+			if (finalColor[RED] > 255)
+				finalColor[RED] = 255;
+			if (finalColor[RED] < 0)
+				finalColor[RED] = 0;
+			if (finalColor[GREEN] > 255)
+				finalColor[GREEN] = 255;
+			if (finalColor[GREEN] < 0)
+				finalColor[GREEN] = 0;
+			if (finalColor[BLUE] > 255)
+				finalColor[BLUE] = 255;
+			if (finalColor[BLUE] < 0)
+				finalColor[BLUE] = 0;
+
+			*(framebuffer++) = (char)(finalColor[RED]);
+			*(framebuffer++) = (char)(finalColor[GREEN]);
+			*(framebuffer++) = (char)(finalColor[BLUE]);
+		}
+	}
+
+	return 0;
+}

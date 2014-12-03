@@ -34,7 +34,8 @@ GLuint loadTexture(Image* image) {
 
 	//generateTexture(framebuffer, width, height);
 	//generateTexture2D(framebuffer, width, height);
-	generateTexture3D(framebuffer, width, height);
+	//generateTexture3D(framebuffer, width, height);
+	generateNoiseType2(framebuffer, width, height);
 
 	//Map the image to the texture
 	glTexImage2D(GL_TEXTURE_2D,                //Always GL_TEXTURE_2D

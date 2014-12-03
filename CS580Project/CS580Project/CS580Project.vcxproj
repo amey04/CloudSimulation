@@ -87,6 +87,7 @@
     <ClInclude Include="imageloader.h" />
     <ClInclude Include="kenPerlinNoise.h" />
     <ClInclude Include="noiseType1.h" />
+    <ClInclude Include="noiseType2.h" />
     <ClInclude Include="perlin.h" />
     <ClInclude Include="perlinNoise.h" />
     <ClInclude Include="stdafx.h" />
@@ -99,6 +100,7 @@
     <ClCompile Include="kenPerlinNoise.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="noiseType1.cpp" />
+    <ClCompile Include="noiseType2.cpp" />
     <ClCompile Include="perlin.cpp" />
     <ClCompile Include="perlinNoise.cpp" />
     <ClCompile Include="stdafx.cpp">
