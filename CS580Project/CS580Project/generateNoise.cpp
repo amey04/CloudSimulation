@@ -1,4 +1,6 @@
 #include <math.h>
+#include <cstdlib>
+
 #include "generateNoise.h"
 
 float finddensity(float x, float y, float height, float width, float noise, float radius) {
@@ -17,7 +19,7 @@ float finddensity(float x, float y, float height, float width, float noise, floa
 	return noise;
 }
 
-int generateTexture2D(char *framebuffer, int width, int height) {
+int generateTexture2D(char *framebuffer, int width, int height, char* imagePx) {
 
 	GzColor textureColor = { 0, 0, 0 };
 	int finalColor[] = { 0, 0, 0 };
@@ -29,14 +31,14 @@ int generateTexture2D(char *framebuffer, int width, int height) {
 	for (float x = 0; x < 256; x += 1) {
 		for (float y = 0; y < 256; y += 1) {
 
-			//float noise = per->Get(x, y);
-			float noise = perlin_type1_2D(x, y);
+			float noise = per->Get(x, y);
+			//float noise = perlin_type1_2D(x, y);
 			
-			//textureColor[RED] = finddensity(y, x, 256, 256, noise, 145);
-			//textureColor[GREEN] = finddensity(y, x, 256, 256, noise, 145);
-
-			textureColor[RED] = noise; 
-			textureColor[GREEN] = noise;
+			textureColor[RED] = finddensity(y, x, 256, 256, noise, 145);
+			textureColor[GREEN] = finddensity(y, x, 256, 256, noise, 145);
+			
+			//textureColor[RED] = noise; 
+			//textureColor[GREEN] = noise;
 			textureColor[BLUE] = 0.8;
 
 			finalColor[RED] = (int)(textureColor[RED] * 255);
@@ -65,7 +67,7 @@ int generateTexture2D(char *framebuffer, int width, int height) {
 	return 0;
 }
 
-int generateNoiseType2(char *framebuffer, int width, int height) {
+int generateNoiseType2(char *framebuffer, int width, int height, char *imagePx) {
 	GzColor textureColor = { 0, 0, 0 };
 	int finalColor[] = { 0, 0, 0 };
 
@@ -74,8 +76,8 @@ int generateNoiseType2(char *framebuffer, int width, int height) {
 
 	float  disp1, disp2, disp3, disp4, disp5, disp6;
 
-	for (float x = 0; x < 256; x += 1) {
-		for (float y = 0; y < 256; y += 1) {
+	for (float y = 0; y < height; y += 1) {
+		for (float x = 0; x < width; x += 1) {
 
 			disp1 = PerlinNoise(x, y, wide, 2, seed, 100);
 			disp2 = PerlinNoise(x, y, wide, 2, seed, 25);
@@ -84,22 +86,40 @@ int generateNoiseType2(char *framebuffer, int width, int height) {
 			disp5 = PerlinNoise(x, y, wide, 2, seed, 3.125);
 			disp6 = PerlinNoise(x, y, wide, 2, seed, 1.56);
 
-			//float noise = disp1 + (disp2*.25) + (disp3*.125) + (disp4*.0625) + (disp5*.03125) + (disp6*.0156);
+			float noise = disp1 + (disp2*.25) + (disp3*.125) + (disp4*.0625) + (disp5*.03125) + (disp6*.0156);
 
 			//float noise = disp1 + (disp2*.25) + (disp3*.125) + (disp4*.0625) + (disp5*.03125) + (disp6*.0156);
-			float noise = disp6;
+			//float noise = disp6;
 
 			textureColor[RED] = noise;
 			textureColor[GREEN] = noise;
 			textureColor[BLUE] = 255;
 
-		    finalColor[RED] = (int)(textureColor[RED]);
-			finalColor[GREEN] = (int)(textureColor[GREEN]);
-			finalColor[BLUE] = (int)(textureColor[BLUE]);
+			float alpha = (noise / 255.0f) - 0.1;
+
+			float r = (imagePx[3 * ((int)y * width + (int)(x))] << 8) -1;
+			float g = (imagePx[3 * ((int)y * width + (int)(x)) + 1] << 8) -1;
+			float b = (imagePx[3 * ((int)y * width + (int)(x)) + 2] << 8) -1;
+
+		    //finalColor[RED] = (int) ((textureColor[RED])*(alpha) + (1-alpha)*((int)imagePx[3 * (int)(floor(y)*width+floor(x))]));
+			//finalColor[GREEN] = (int)((textureColor[GREEN])*(alpha) + (1-alpha)*((int)imagePx[3 * ((int)(floor(y)*width + floor(x))) +1]));
+			//finalColor[BLUE] = (int)((textureColor[BLUE])*(alpha) + (1-alpha)*((int)imagePx[3 * ((int)(floor(y)*width + floor(x))) + 2]));
+
+			finalColor[RED] = (int) ((textureColor[RED])*alpha + (1-alpha)*162);
+			finalColor[GREEN] = (int)((textureColor[GREEN])*alpha + (1 - alpha)*201);
+			finalColor[BLUE] = (int)((textureColor[BLUE])*alpha + (1 - alpha)*234);
+
+			//finalColor[RED] = (short)imagePx[3 *((int)y*width + (int)x)];
+			//finalColor[GREEN] = (short)imagePx[(3* ((int)y*width + (int)x)) + 1];
+			//finalColor[BLUE] = (short)imagePx[(3 * ((int)y*width + (int)x ))+ 2];
 
 			/*finalColor[RED] = (int)(textureColor[RED] * 255);
 			finalColor[GREEN] = (int)(textureColor[GREEN] * 255);
 			finalColor[BLUE] = (int)(textureColor[BLUE] * 255);*/
+
+			//imagePx[(int)(y*width + x)] = (1 - alpha)*(imagePx[(int)(y*width + x)]) + alpha * textureColor[RED];
+			//imagePx[(int)(y*width + x)+1] = (1 - alpha)*(imagePx[(int)(y*width + x)+1]) + alpha * textureColor[GREEN];
+			//imagePx[(int)(y*width + x)+2] = (1 - alpha)*(imagePx[(int)(y*width + x)+2]) + alpha * textureColor[BLUE];
 
 			if (finalColor[RED] > 255)
 				finalColor[RED] = 255;

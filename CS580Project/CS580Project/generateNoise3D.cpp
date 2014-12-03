@@ -1,7 +1,7 @@
 #include <math.h>
 #include "generateNoise3D.h"
 
-float noise3d[256][256][256];
+float noise3d[512][256][256];
 
 float finddensity3D(float x, float y, float height, float width, float noise, float radius) {
 
@@ -19,17 +19,17 @@ float finddensity3D(float x, float y, float height, float width, float noise, fl
 	return noise;
 }
 
-int generateTexture3D(char *framebuffer, int width, int height) {
+int generateTexture3D(char *framebuffer, int width, int height, char *imagePx) {
 
 	GzColor textureColor = { 0, 0, 0 };
 	int finalColor[] = { 0, 0, 0 };
 
 	char *copybuffer = framebuffer;
-
+	
 	Perlin *per = new Perlin(4, 0.5, 2.0, 10);
 
-	for (float x = 0; x < 256; x += 1) {
-		for (float y = 0; y < 256; y += 1) {
+	for (float x = 0; x < width; x += 1) {
+		for (float y = 0; y < height; y += 1) {
 			
 			float noise = 0.0f;
 			

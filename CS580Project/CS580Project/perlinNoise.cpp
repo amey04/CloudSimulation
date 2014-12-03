@@ -171,7 +171,7 @@ int getPerlinNoise(double x, double y, double z, GzColor color){
 	return 0;
 }
 
-int generateTexture3D(char *framebuffer, int width, int height) {
+int generateTexture3D(char *framebuffer, int width, int height, char *image) {
 
 	GzColor textureColor = { 0, 0, 0 };
 	int finalColor[] = { 0, 0, 0 };

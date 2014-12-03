@@ -10,8 +10,6 @@
 
 using namespace std;
 
-
-
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
 		case 27: //Escape key
@@ -27,15 +25,15 @@ GLuint loadTexture(Image* image) {
 	glGenTextures(1, &textureId); //Make room for our texture
 	glBindTexture(GL_TEXTURE_2D, textureId); //Tell OpenGL which texture to edit
 
-	int width = 256;
-	int height = 256;
-
+	int width = image->width;
+	int height = image->height;
 	char *framebuffer = (char *)malloc((3 * sizeof(char) * width * height));
+
 
 	//generateTexture(framebuffer, width, height);
 	//generateTexture2D(framebuffer, width, height);
-	//generateTexture3D(framebuffer, width, height);
-	generateNoiseType2(framebuffer, width, height);
+	//generateTexture3D(framebuffer, width, height, image->pixels);
+	generateNoiseType2(framebuffer, width, height, image->pixels);
 
 	//Map the image to the texture
 	glTexImage2D(GL_TEXTURE_2D,                //Always GL_TEXTURE_2D
@@ -98,10 +96,10 @@ void drawScene() {
 	glRotatef(rotate_1,0.0f,0.0f,1.0f);
 	//glTranslatef(rotate_1, 0.0f, 0.0f);
 
-	glScalef(1.7, 0.9, 1);
+	//glScalef(1.7, 0.9, 1);
 	gluQuadricTexture(quad,1);
     gluSphere(quad,4,20,20);
-
+	//glutSolidCube(12);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, _textureId);
 	//glTranslatef(1.6f, 0.0f, 0.0f);
@@ -113,10 +111,10 @@ void drawScene() {
 }
 void update(int value)
 {
-    rotate_1+=0.020f;
-    if(rotate_1>11.1)
+    rotate_1+=2.0f;
+    if(rotate_1>360.f)
     {
-        rotate_1 = 0.0f;
+        rotate_1 -= 360;
     }
     glutPostRedisplay();
     glutTimerFunc(25,update,0);
@@ -130,7 +128,7 @@ int main(int argc, char** argv) {
 	glutCreateWindow("Textures - videotutorialsrock.com");
 	initRendering();
 
-	//glutTimerFunc(25,update,0);
+	glutTimerFunc(25,update,0);
 
 	glutDisplayFunc(drawScene);
 	glutKeyboardFunc(handleKeypress);

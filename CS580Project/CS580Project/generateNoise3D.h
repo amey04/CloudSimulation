@@ -8,4 +8,4 @@ typedef float   GzColor[3];
 #define BLUE    2
 
 float finddensity3D(float x, float y, float height, float width, float noise, float radius);
-int generateTexture3D(char *framebuffer, int width, int height);
+int generateTexture3D(char *framebuffer, int width, int height, char *imagePx);
