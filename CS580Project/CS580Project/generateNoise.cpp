@@ -93,21 +93,39 @@ int generateNoiseType2(char *framebuffer, int width, int height, char *imagePx) 
 
 			textureColor[RED] = noise;
 			textureColor[GREEN] = noise;
-			textureColor[BLUE] = 255;
+			textureColor[BLUE] = noise;
 
-			float alpha = (noise / 255.0f) - 0.1;
+			if (noise > 255)
+				noise = 255;
+			if (noise < 0)
+				noise = 0;
 
-			float r = (imagePx[3 * ((int)y * width + (int)(x))] << 8) -1;
-			float g = (imagePx[3 * ((int)y * width + (int)(x)) + 1] << 8) -1;
-			float b = (imagePx[3 * ((int)y * width + (int)(x)) + 2] << 8) -1;
+			float alpha = (noise / 255.0f) - 0.29;
+			if (alpha > 255)
+				alpha = 255;
+			if (alpha < 0)
+				alpha = 0;
 
-		    //finalColor[RED] = (int) ((textureColor[RED])*(alpha) + (1-alpha)*((int)imagePx[3 * (int)(floor(y)*width+floor(x))]));
-			//finalColor[GREEN] = (int)((textureColor[GREEN])*(alpha) + (1-alpha)*((int)imagePx[3 * ((int)(floor(y)*width + floor(x))) +1]));
-			//finalColor[BLUE] = (int)((textureColor[BLUE])*(alpha) + (1-alpha)*((int)imagePx[3 * ((int)(floor(y)*width + floor(x))) + 2]));
+			float r = (imagePx[3 * ((int)y * width + (int)(x))] < -1) ? imagePx[3 * ((int)y * width + (int)(x))] + 256 : imagePx[3 * ((int)y * width + (int)(x))];
+			float g = (imagePx[3 * ((int)y * width + (int)(x)) + 1] < -1) ? imagePx[3 * ((int)y * width + (int)(x)) + 1] + 256 : imagePx[3 * ((int)y * width + (int)(x)) + 1];
+			float b = (imagePx[3 * ((int)y * width + (int)(x)) + 2] < -1) ? imagePx[3 * ((int)y * width + (int)(x)) + 2] + 256 : imagePx[3 * ((int)y * width + (int)(x)) + 2];
 
-			finalColor[RED] = (int) ((textureColor[RED])*alpha + (1-alpha)*162);
-			finalColor[GREEN] = (int)((textureColor[GREEN])*alpha + (1 - alpha)*201);
-			finalColor[BLUE] = (int)((textureColor[BLUE])*alpha + (1 - alpha)*234);
+		   // finalColor[RED] = (int) ((textureColor[RED])*(alpha) + (1-alpha)*(((int)imagePx[3 * (int)(floor(y)*width+floor(x))]+256)));
+			//finalColor[GREEN] = (int)((textureColor[GREEN])*(alpha) + (1-alpha)*(((int)imagePx[3 * ((int)(floor(y)*width + floor(x))) +1]+256)));
+			//finalColor[BLUE] = (int)((textureColor[BLUE])*(alpha) + (1-alpha)*(((int)imagePx[3 * ((int)(floor(y)*width + floor(x))) + 2]+256)));
+
+			finalColor[RED] = (int)((textureColor[RED])*(alpha)+(1 - alpha)*r);
+			finalColor[GREEN] = (int)((textureColor[GREEN])*(alpha)+(1 - alpha)*g);
+			finalColor[BLUE] = (int)((textureColor[BLUE])*(alpha)+(1 - alpha)*b);
+
+			/*finalColor[RED] = r;
+			finalColor[GREEN] = g;
+			finalColor[BLUE] = b;*/
+
+
+			//finalColor[RED] = (int) ((textureColor[RED])*alpha + (1-alpha)*162);
+			//finalColor[GREEN] = (int)((textureColor[GREEN])*alpha + (1 - alpha)*201);
+			//finalColor[BLUE] = (int)((textureColor[BLUE])*alpha + (1 - alpha)*234);
 
 			//finalColor[RED] = (short)imagePx[3 *((int)y*width + (int)x)];
 			//finalColor[GREEN] = (short)imagePx[(3* ((int)y*width + (int)x)) + 1];
