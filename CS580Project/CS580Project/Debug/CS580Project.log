@@ -1,11 +1,8 @@
-﻿Build started 12/2/2014 11:13:56 PM.
+﻿Build started 12/3/2014 6:18:03 PM.
      1>Project "C:\Users\Hrishikesh\Documents\GitHub\CS580P\CloudSimulation\CS580Project\CS580Project\CS580Project.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\GL Files\GL Files\include\GL" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt generateNoise3D.cpp
-         generateNoise3D.cpp
-     1>c:\users\hrishikesh\documents\github\cs580p\cloudsimulation\cs580project\cs580project\generatenoise3d.cpp(8): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\hrishikesh\documents\github\cs580p\cloudsimulation\cs580project\cs580project\generatenoise3d.cpp(9): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\hrishikesh\documents\github\cs580p\cloudsimulation\cs580project\cs580project\generatenoise3d.cpp(15): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\GL Files\GL Files\include\GL" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Hrishikesh\Documents\GitHub\CS580P\CloudSimulation\CS580Project\Debug\CS580Project.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\GL Files\GL Files\lib" GLU32.lib glut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Hrishikesh\Documents\GitHub\CS580P\CloudSimulation\CS580Project\Debug\CS580Project.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Hrishikesh\Documents\GitHub\CS580P\CloudSimulation\CS580Project\Debug\CS580Project.lib" /MACHINE:X86 Debug\generateNoise.obj
          Debug\generateNoise3D.obj
@@ -21,4 +18,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.45
+Time Elapsed 00:00:00.88

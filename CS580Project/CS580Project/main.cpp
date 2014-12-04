@@ -14,30 +14,13 @@ GLuint texture; //the array for our texture
 GLuint texture1;
 GLfloat angle = 0.0;
 GLUquadric *quad;
+bool flag = true;
 
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
 		case 27: //Escape key
 			exit(0);
 	}
-}
-
-GLuint loadTexture2(Image* image) {
-	GLuint textureId;
-	glGenTextures(1, &textureId); //Make room for our texture
-	glBindTexture(GL_TEXTURE_2D, textureId); //Tell OpenGL which texture to edit
-	//Map the image to the texture
-	glTexImage2D(GL_TEXTURE_2D,                //Always GL_TEXTURE_2D
-		0,                            //0 for now
-		GL_RGB,                       //Format OpenGL uses for image
-		//image->width, image->height,  //Width and height
-		0, 0, 
-		0,                            //The border of the image
-		GL_RGB, //GL_RGB, because pixels are stored in RGB format
-		GL_UNSIGNED_BYTE, //GL_UNSIGNED_BYTE, because pixels are stored
-		//as unsigned numbers
-		image->pixels);               //The actual pixel data
-	return textureId; //Returns the id of the texture
 }
 
 GLuint LoadTexture3(const char * filename, int width, int height){
@@ -97,7 +80,7 @@ GLuint LoadTexture3(const char * filename, int width, int height){
 }
 
 //Makes the image into a texture, and returns the id of the texture
-GLuint loadTexture(Image* image) {
+GLuint loadTexture() {
 	GLuint textureId;
 	glGenTextures(1, &textureId); //Make room for our texture
 	glBindTexture(GL_TEXTURE_2D, textureId); //Tell OpenGL which texture to edit
@@ -127,7 +110,7 @@ GLuint loadTexture(Image* image) {
 
 GLuint _textureId, textureId2; //The id of the textur
 //GLUquadric *quad;
-float rotate_1;
+float translate_1, translate_2, translate_3, translate_4, translate_5, translate_6;
 
 //GLUquadricObj quad;
 
@@ -139,17 +122,21 @@ void initRendering() {
 	glEnable(GL_COLOR_MATERIAL);
 	quad = gluNewQuadric();
 
-	Image* image = loadBMP("earth.bmp");
-	textureId2 = loadTexture(image);
-	_textureId = LoadTexture3("Sky-and-trees.bmp", 1024, 1024);
-	delete image;
+	//Image* image = loadBMP("earth.bmp");
+	if (flag){
+	textureId2 = loadTexture();
+	_textureId = LoadTexture3("Sky-and-trees.bmp", 800, 800);
+}
+//	delete image;
 }
 
 void handleResize(int w, int h) {
-	glViewport(0, 0, w, h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(45.0, (float)w / (float)h, 1.0, 200.0);
+	if (flag){
+		glViewport(0, 0, w, h);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluPerspective(45.0, (float)w / (float)h, 1.0, 200.0);
+	}
 }
 
 void rect() {
@@ -166,17 +153,8 @@ void rect() {
 	glTexCoord2d(0.0, 1.0); glVertex2d(-7.0, +8.5);
 	glEnd();
 
-	/*glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, texture1); //bind the texture
-	glBegin(GL_QUADS);
-	glTexCoord2d(0.0, 0.0); glVertex2d(-.5, -.5);
-	glTexCoord2d(1.0, 0.0); glVertex2d(+.5, -.5);
-	glTexCoord2d(1.0, 1.0); glVertex2d(+.5, +.5);
-	glTexCoord2d(0.0, 1.0); glVertex2d(-.5, +.5);
-	glEnd();*/
 	glPopMatrix();
 	glutSwapBuffers();
-	//glutSolidCube(2);
 }
 
 void drawScene() {
@@ -186,8 +164,10 @@ void drawScene() {
     glLoadIdentity();
 
 	glTranslatef(0.0f, 1.0f, -16.0f);
+	//if (flag)
 	rect();
 
+	glTranslatef(3.0f, 2.0f, 0.0f);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textureId2);
 
@@ -199,36 +179,52 @@ void drawScene() {
 	
 	glRotatef(270,1.0f,0.0f,0.0f);
 	
-	glRotatef(rotate_1,0.0f,0.0f,1.0f);
-	//glTranslatef(rotate_1, 0.0f, 0.0f);
+	//glRotatef(rotate_1,0.0f,0.0f,1.0f);
+	glTranslatef(translate_2+2.0f, 0.0f, -3.5f);
+	gluSphere(quad, 0.5, 10, 10);
 
 	glScalef(1.7, 0.9, 1);
 	gluQuadricTexture(quad,1);
-    gluSphere(quad,1,20,20);
-	//glRectf(-5.0f, 5.0f, 5.0f, -5.0f);*/
+	glTranslatef(translate_1, 0.0f, 1.0f);
 
-	/*glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, textureId2);
-	gluQuadricTexture(quad, 1);
-	glVertex2d(-2.5, -2.5);
-	glVertex2d(+2.5, -2.5);
-	glVertex2d(+2.5, +2.5);
-	glVertex2d(-2.5, +2.5);*/
-	
-	//glTranslatef(1.6f, 0.0f, 0.0f);
-	//gluSphere(quad, 1, 20, 20);
-	//glTranslatef(.7f, 0.0f, 0.0f);
-	//gluSphere(quad, 1, 20, 20);
+	glTranslatef(0.0f, 0.0f, 1.0f);
+	gluSphere(quad, 1, 10, 10);
+
+	glTranslatef(-4.0f, 0.0f, 0.7f);
+	gluSphere(quad, 1.5, 10, 10);
+
+	glTranslatef(0.0f, 0.0f, -0.7f);
+	gluSphere(quad, 1, 10, 10);
+
+	glTranslatef(-4.0f, 0.0f, 0.7f);
+	gluSphere(quad, 1.5, 10, 10);
+
+	glTranslatef(0.0f - translate_1 + translate_3, 0.0f, 2.5f);
+	gluSphere(quad, 2, 10, 10);
+
+	/*glTranslatef(0.0f - translate_1, 0.0f, -2.0f);
+	gluSphere(quad, 0.5, 20, 20);*/
 
 	glutSwapBuffers();
 }
 void update(int value)
 {
-    rotate_1+=0.020f;
-    if(rotate_1>11.1)
+	flag = false;
+	translate_1 += 0.010f;
+	translate_2 += 0.002f;
+	translate_3 += 0.011f;
+	if (translate_1>5.1)
     {
-        rotate_1 = 0.0f;
+		translate_1 = -9.0f;
     }
+	if (translate_2>11.1)
+	{
+		translate_2 = -9.0f;
+	}
+	if (translate_3>8.1)
+	{
+		translate_3 = -13.0f;
+	}
     glutPostRedisplay();
     glutTimerFunc(25,update,0);
 }
@@ -238,13 +234,13 @@ int main(int argc, char** argv) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(800, 800);
 
-	glutCreateWindow("Textures - videotutorialsrock.com");
+	glutCreateWindow("Cloud Rendering");
 	initRendering();
 
-	//glutTimerFunc(25,update,0);
+	glutTimerFunc(25,update,0);
 
 	glutDisplayFunc(drawScene);
-	glutKeyboardFunc(handleKeypress);
+	//glutKeyboardFunc(handleKeypress);
 	glutReshapeFunc(handleResize);
 
 	glutMainLoop();
