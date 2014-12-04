@@ -184,11 +184,11 @@ void update(int value)
 	flag = false;
 	translate_1 += 0.002f;
 	translate_2 += 0.002f;
-	translate_3 += 0.008f;
+	translate_3 += 0.007f;
 	translate_4 += 0.0095f;
-	translate_5 += 0.010f;
-	translate_6 += 0.011f;
-	translate_7 += 0.011f;
+	translate_5 += 0.011f;
+	translate_6 += 0.013f;
+	translate_7 += 0.013f;
 
 	if (translate_1>1.9)
     {
@@ -216,7 +216,7 @@ void update(int value)
 	}
 	if (translate_7>3.1)
 	{
-		translate_7 = -12.2f;
+		translate_7 = -10.2f;
 	}
     glutPostRedisplay();
     glutTimerFunc(25,update,0);
