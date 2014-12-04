@@ -75,7 +75,7 @@ GLuint loadTexture() {
 
 
 GLuint _textureId, textureId2; 
-float translate_1, translate_2, translate_3, translate_4, translate_5, translate_6;
+float translate_1 = 0.0, translate_2 = 0.5, translate_3, translate_4, translate_5, translate_6;
 
 
 void initRendering() {
@@ -114,7 +114,7 @@ void rect() {
 	glEnd();
 
 	glPopMatrix();
-	glutSwapBuffers();
+	//glutSwapBuffers();
 }
 
 void drawScene() {
@@ -134,50 +134,67 @@ void drawScene() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 	
 	glRotatef(270,1.0f,0.0f,0.0f);
-	
-	glTranslatef(translate_2+2.0f, 0.0f, -3.5f);
-	gluSphere(quad, 0.5, 10, 10);
-
 	glScalef(1.7, 0.9, 1);
-	gluQuadricTexture(quad,1);
-	glTranslatef(translate_1, 0.0f, 1.0f);
+	if (flag)
+	gluQuadricTexture(quad, 1);
 
-	glTranslatef(0.0f, 0.0f, 1.0f);
-	gluSphere(quad, 1, 10, 10);
+	//glPushMatrix();
+	glTranslatef(0.0, 0.0f, -4.5f);
+	gluSphere(quad, 0.3, 20, 20);
+	//glPopMatrix();
 
-	glTranslatef(-4.0f, 0.0f, 0.7f);
-	gluSphere(quad, 1.5, 10, 10);
+	//glPushMatrix();
+	glTranslatef(0.5, 0.0f, 0.0f);
+	gluSphere(quad, 0.3, 20, 20);
+	//glPopMatrix();
 
-	glTranslatef(0.0f, 0.0f, -0.7f);
-	gluSphere(quad, 1, 10, 10);
+	//glPushMatrix();
+	glTranslatef(1.3, 0.0f, 1.5f);
+	gluSphere(quad, 1.1, 20, 20);
+	//glPopMatrix();
 
-	glTranslatef(-4.0f, 0.0f, 0.7f);
-	gluSphere(quad, 1.5, 10, 10);
+//	glPushMatrix();
+	glTranslatef(-2.8, 0.0f, 2.5f);
+	gluSphere(quad, 1.7, 20, 20);
+//	glPopMatrix();
 
-	glTranslatef(0.0f - translate_1 + translate_3, 0.0f, 2.5f);
-	gluSphere(quad, 2, 10, 10);
+//	glPushMatrix();
+	glTranslatef(-4.5, 0.0f, -1.6f);
+	gluSphere(quad, 1.3, 20, 20);
+//	glPopMatrix();
+
+//	glPushMatrix();
+	glTranslatef(0.0, 0.0f, 4.0f);
+	gluSphere(quad, 2, 20, 20);
+//	glPopMatrix();
 
 	glutSwapBuffers();
 }
 void update(int value)
 {
 	flag = false;
-	translate_1 += 0.010f;
+	translate_1 += 0.002f;
 	translate_2 += 0.002f;
 	translate_3 += 0.011f;
-	if (translate_1>5.1)
+	translate_4 += 0.009f;
+	if (translate_1>1.9)
     {
-		translate_1 = -9.0f;
+		translate_1 = 0.0f;
     }
-	if (translate_2>11.1)
+	if (translate_2>2.9)
 	{
-		translate_2 = -9.0f;
+		translate_2 = 0.5f;
 	}
-	if (translate_3>8.1)
+	if (translate_3>2.1)
 	{
 		translate_3 = -13.0f;
+	}
+	if (translate_4>9.1)
+	{
+		translate_4 = -11.0f;
 	}
     glutPostRedisplay();
     glutTimerFunc(25,update,0);
