@@ -2,7 +2,6 @@
 #include <iostream>
 #include <stdlib.h>
 #include <gl\glut.h>
-//#include "stdafx.h"
 
 #include "imageloader.h"
 #include "generateNoise.h"
@@ -10,26 +9,17 @@
 
 using namespace std;
 
-GLuint texture; //the array for our texture
+GLuint texture;
 GLuint texture1;
 GLfloat angle = 0.0;
 GLUquadric *quad;
 bool flag = true;
 
-void handleKeypress(unsigned char key, int x, int y) {
-	switch (key) {
-		case 27: //Escape key
-			exit(0);
-	}
-}
-
 GLuint LoadTexture3(const char * filename, int width, int height){
 
-	//    GLuint texture;
 	unsigned char * data;
 	FILE * file;
 
-	//The following code will read in our RAW file
 	file = fopen(filename, "rb");
 	if (file == NULL) return 0;
 	data = (unsigned char *)malloc(width * height * 3);
@@ -41,93 +31,63 @@ GLuint LoadTexture3(const char * filename, int width, int height){
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-	//    // when texture area is small, bilinear filter the closest mipmap
-	//    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-	//                    GL_LINEAR_MIPMAP_NEAREST );
-	//    // when texture area is large, bilinear filter the original
-	//    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-	//    
-	//    // the texture wraps over at the edges (repeat)
-	//    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-	//    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-	//    
-	//    //Generate the texture
-	//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0,GL_RGB, GL_UNSIGNED_BYTE, data);
-
-
-
-	// select modulate to mix texture with color for shading
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-	// when texture area is small, bilinear filter the closest mipmap
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
 		GL_LINEAR_MIPMAP_NEAREST);
-	// when texture area is large, bilinear filter the first mipmap
+
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	//    // the texture wraps over at the edges (repeat)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	// build our texture mipmaps
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height,
 		GL_BGR_EXT, GL_UNSIGNED_BYTE, data);
 
 	free(data);
 
-	return texture; //return whether it was successful
+	return texture;
 
 }
 
-//Makes the image into a texture, and returns the id of the texture
 GLuint loadTexture() {
 	GLuint textureId;
-	glGenTextures(1, &textureId); //Make room for our texture
-	glBindTexture(GL_TEXTURE_2D, textureId); //Tell OpenGL which texture to edit
+	glGenTextures(1, &textureId);
+	glBindTexture(GL_TEXTURE_2D, textureId);
 
 	int width = 256;
 	int height = 256;
 
 	char *framebuffer = (char *)malloc((3 * sizeof(char) * width * height));
 
-	//generateTexture(framebuffer, width, height);
-	//generateTexture2D(framebuffer, width, height);
 	generateTexture3D(framebuffer, width, height);
 
-	//Map the image to the texture
-	glTexImage2D(GL_TEXTURE_2D,                //Always GL_TEXTURE_2D
-				 0,                            //0 for now
-				 GL_RGB,                       //Format OpenGL uses for image
-				 width, height,  //Width and height
-				 0,                            //The border of the image
-				 GL_RGB, //GL_RGB, because pixels are stored in RGB format
-				 GL_UNSIGNED_BYTE, //GL_UNSIGNED_BYTE, because pixels are stored
-				                   //as unsigned numbers
-				 framebuffer);               //The actual pixel data
-	return textureId; //Returns the id of the texture
+	glTexImage2D(GL_TEXTURE_2D,
+				 0,
+				 GL_RGB,
+				 width, height,
+				 0, 
+				 GL_RGB,
+				 GL_UNSIGNED_BYTE,                  
+				 framebuffer);
+	return textureId;
 }
 
 
-GLuint _textureId, textureId2; //The id of the textur
-//GLUquadric *quad;
+GLuint _textureId, textureId2; 
 float translate_1, translate_2, translate_3, translate_4, translate_5, translate_6;
 
-//GLUquadricObj quad;
 
 void initRendering() {
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_LIGHTING);
-	//glEnable(GL_LIGHT0);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_COLOR_MATERIAL);
 	quad = gluNewQuadric();
 
-	//Image* image = loadBMP("earth.bmp");
 	if (flag){
 	textureId2 = loadTexture();
 	_textureId = LoadTexture3("Sky-and-trees.bmp", 800, 800);
 }
-//	delete image;
 }
 
 void handleResize(int w, int h) {
@@ -141,7 +101,7 @@ void handleResize(int w, int h) {
 
 void rect() {
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, _textureId); //bind the texture
+	glBindTexture(GL_TEXTURE_2D, _textureId);
 
 	glPushMatrix();
 	glRotatef(angle, 0.0f, 0.0f, 1.0f);
@@ -158,20 +118,18 @@ void rect() {
 }
 
 void drawScene() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_ACCUM_BUFFER_BIT);
 
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
 	glTranslatef(0.0f, 1.0f, -16.0f);
-	//if (flag)
 	rect();
 
 	glTranslatef(3.0f, 2.0f, 0.0f);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textureId2);
 
-	//Bottom
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -179,7 +137,6 @@ void drawScene() {
 	
 	glRotatef(270,1.0f,0.0f,0.0f);
 	
-	//glRotatef(rotate_1,0.0f,0.0f,1.0f);
 	glTranslatef(translate_2+2.0f, 0.0f, -3.5f);
 	gluSphere(quad, 0.5, 10, 10);
 
@@ -201,9 +158,6 @@ void drawScene() {
 
 	glTranslatef(0.0f - translate_1 + translate_3, 0.0f, 2.5f);
 	gluSphere(quad, 2, 10, 10);
-
-	/*glTranslatef(0.0f - translate_1, 0.0f, -2.0f);
-	gluSphere(quad, 0.5, 20, 20);*/
 
 	glutSwapBuffers();
 }
@@ -240,7 +194,6 @@ int main(int argc, char** argv) {
 	glutTimerFunc(25,update,0);
 
 	glutDisplayFunc(drawScene);
-	//glutKeyboardFunc(handleKeypress);
 	glutReshapeFunc(handleResize);
 
 	glutMainLoop();
