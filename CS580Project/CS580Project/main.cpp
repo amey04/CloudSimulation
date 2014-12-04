@@ -135,19 +135,48 @@ void drawScene() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
-	glRotatef(270,1.0f,0.0f,0.0f);
-	
-	glTranslatef(translate_2+2.0f, 0.0f, -3.5f);
-	gluSphere(quad, 0.5, 10, 10);
+	glRotatef(270,1.0f,0.0f,0.0f);;
 
 	glScalef(1.7, 0.9, 1);
 	gluQuadricTexture(quad,1);
-	glTranslatef(translate_1, 0.0f, 1.0f);
 
-	glTranslatef(0.0f, 0.0f, 1.0f);
-	gluSphere(quad, 1, 10, 10);
+	glTranslatef(-3.5f, 0.0f, 1.5f);
+	gluSphere(quad, 2.5, 20, 20);
 
-	glTranslatef(-4.0f, 0.0f, 0.7f);
+	glTranslatef(4.0f, 0.0f, -0.4f);
+	gluSphere(quad, 2.2, 20, 20);
+
+	glTranslatef(-4.0f, 0.0f, -2.5f);
+	gluSphere(quad, 1.6, 20, 20);
+
+	glTranslatef(2.5f, 0.0f, 0.0f);
+	gluSphere(quad, 1.2, 20, 20);
+
+	glTranslatef(2.0f, 0.0f, 0.0f);
+	gluSphere(quad, 1.5, 20, 20);
+
+	glTranslatef(-2.0f, 0.0f, -2.0f);
+	gluSphere(quad, 1, 20, 20);
+
+	glTranslatef(2.0f, 0.0f, 0.0f);
+	gluSphere(quad, 0.3, 20, 20);
+
+	glTranslatef(0.0f, 0.0f, 0.2f);
+	gluSphere(quad, 0.3, 20, 20);
+
+	glTranslatef(0.2f, 0.0f, 0.0f);
+	gluSphere(quad, 0.3, 10, 10);
+
+	glTranslatef(0.0f, 0.0f, -0.2f);
+	gluSphere(quad, 0.3, 20, 20);
+
+	glTranslatef(-0.1f, 0.0f, -0.2f);
+	gluSphere(quad, 0.2, 20, 20);
+
+	/*glTranslatef(-2.0f, 0.0f, -0.4f);
+	gluSphere(quad, 2.2, 10, 10);*/
+
+	/*glTranslatef(-4.0f, 0.0f, 0.7f);
 	gluSphere(quad, 1.5, 10, 10);
 
 	glTranslatef(0.0f, 0.0f, -0.7f);
@@ -157,7 +186,7 @@ void drawScene() {
 	gluSphere(quad, 1.5, 10, 10);
 
 	glTranslatef(0.0f - translate_1 + translate_3, 0.0f, 2.5f);
-	gluSphere(quad, 2, 10, 10);
+	gluSphere(quad, 2, 10, 10);*/
 
 	glutSwapBuffers();
 }
@@ -191,7 +220,7 @@ int main(int argc, char** argv) {
 	glutCreateWindow("Cloud Rendering");
 	initRendering();
 
-	glutTimerFunc(25,update,0);
+	//glutTimerFunc(25,update,0);
 
 	glutDisplayFunc(drawScene);
 	glutReshapeFunc(handleResize);
