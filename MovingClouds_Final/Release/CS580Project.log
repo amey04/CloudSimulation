@@ -1,0 +1,38 @@
+﻿Build started 01/13/2015 15:47:02.
+     1>Project "C:\Prachi's Data\My Documents\Grad Life\USC\Fall 2014\CS 580 - 3D Graphics & Rendering\Project\CS580Project\CS580Project.vcxproj" on node 2 (Build target(s)).
+       Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\GL Files\GL Files\include\GL" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Release\CS580Project.pch" /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt generateNoise3D.cpp main.cpp noiseType1.cpp perlin.cpp
+         generateNoise3D.cpp
+     1>generateNoise3D.cpp(1): warning C4627: '#include <math.h>': skipped when looking for precompiled header use
+                 Add directive to 'stdafx.h' or rebuild precompiled header
+     1>generateNoise3D.cpp(2): warning C4627: '#include "generateNoise3D.h"': skipped when looking for precompiled header use
+                 Add directive to 'stdafx.h' or rebuild precompiled header
+     1>generateNoise3D.cpp(84): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         main.cpp
+     1>main.cpp(1): warning C4627: '#include <windows.h>': skipped when looking for precompiled header use
+                 Add directive to 'stdafx.h' or rebuild precompiled header
+     1>main.cpp(2): warning C4627: '#include <iostream>': skipped when looking for precompiled header use
+                 Add directive to 'stdafx.h' or rebuild precompiled header
+     1>main.cpp(3): warning C4627: '#include <stdlib.h>': skipped when looking for precompiled header use
+                 Add directive to 'stdafx.h' or rebuild precompiled header
+     1>main.cpp(5): warning C4627: '#include <gl\glut.h>': skipped when looking for precompiled header use
+                 Add directive to 'stdafx.h' or rebuild precompiled header
+     1>main.cpp(7): warning C4627: '#include "generateNoise3D.h"': skipped when looking for precompiled header use
+                 Add directive to 'stdafx.h' or rebuild precompiled header
+     1>main.cpp(240): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         noiseType1.cpp
+     1>noiseType1.cpp(1): warning C4627: '#include <math.h>': skipped when looking for precompiled header use
+                 Add directive to 'stdafx.h' or rebuild precompiled header
+     1>noiseType1.cpp(55): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         perlin.cpp
+     1>perlin.cpp(8): warning C4627: '#include <math.h>': skipped when looking for precompiled header use
+                 Add directive to 'stdafx.h' or rebuild precompiled header
+     1>perlin.cpp(10): warning C4627: '#include "perlin.h"': skipped when looking for precompiled header use
+                 Add directive to 'stdafx.h' or rebuild precompiled header
+     1>perlin.cpp(248): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+     1>Done Building Project "C:\Prachi's Data\My Documents\Grad Life\USC\Fall 2014\CS 580 - 3D Graphics & Rendering\Project\CS580Project\CS580Project.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.30

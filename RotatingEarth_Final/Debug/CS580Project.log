@@ -1,0 +1,40 @@
+﻿Build started 01/13/2015 16:33:15.
+     1>Project "C:\Prachi's Data\My Documents\Grad Life\USC\Fall 2014\CS 580 - 3D Graphics & Rendering\Project\RotatingEarth\CS580Project.vcxproj" on node 2 (Build target(s)).
+       Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\GL Files\GL Files\include\GL" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\CS580Project.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\GL Files\GL Files\include\GL" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt generateNoise.cpp imageloader.cpp main.cpp noiseType2.cpp perlin.cpp
+         perlin.cpp
+         noiseType2.cpp
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\noisetype2.cpp(13): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\noisetype2.cpp(35): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\noisetype2.cpp(36): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\noisetype2.cpp(38): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\noisetype2.cpp(40): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
+         main.cpp
+         imageloader.cpp
+         generateNoise.cpp
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\generatenoise.cpp(8): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\generatenoise.cpp(9): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\generatenoise.cpp(13): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\generatenoise.cpp(42): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\generatenoise.cpp(89): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\generatenoise.cpp(103): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\generatenoise.cpp(109): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\generatenoise.cpp(110): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\prachi's data\my documents\grad life\usc\fall 2014\cs 580 - 3d graphics & rendering\project\rotatingearth\generatenoise.cpp(111): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Prachi's Data\My Documents\Grad Life\USC\Fall 2014\CS 580 - 3D Graphics & Rendering\Project\RotatingEarth\Debug\CS580Project.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\GL Files\GL Files\lib" GLU32.lib glut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Prachi's Data\My Documents\Grad Life\USC\Fall 2014\CS 580 - 3D Graphics & Rendering\Project\RotatingEarth\Debug\CS580Project.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Prachi's Data\My Documents\Grad Life\USC\Fall 2014\CS 580 - 3D Graphics & Rendering\Project\RotatingEarth\Debug\CS580Project.lib" /MACHINE:X86 Debug\generateNoise.obj
+         Debug\imageloader.obj
+         Debug\main.obj
+         Debug\noiseType2.obj
+         Debug\perlin.obj
+         Debug\stdafx.obj
+         CS580Project.vcxproj -> C:\Prachi's Data\My Documents\Grad Life\USC\Fall 2014\CS 580 - 3D Graphics & Rendering\Project\RotatingEarth\Debug\CS580Project.exe
+     1>Done Building Project "C:\Prachi's Data\My Documents\Grad Life\USC\Fall 2014\CS 580 - 3D Graphics & Rendering\Project\RotatingEarth\CS580Project.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.06
