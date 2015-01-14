@@ -17,6 +17,11 @@ Delnaz Gundevia gundevia@usc.edu
 Hrishikesh Ghorpade ghorpade@usc.edu
 Prachi Kadam prachika@usc.edu
 
+-----------------
+Project Website:
+-----------------
+https://sites.google.com/site/cloudssimulation/home
+
 -------------------------------------
 COMPILATION & RUNNING INSTRUCTIONS:
 -------------------------------------
@@ -26,5 +31,3 @@ https://www.opengl.org/wiki/Getting_Started
 There are two projects:
 1. Clouds on Rotating Earth -- Translucency Effect
 2. Clouds on a Scene -- Density Effect
-
-
